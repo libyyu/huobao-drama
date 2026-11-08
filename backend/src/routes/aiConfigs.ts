@@ -107,6 +107,16 @@ function buildProbe(serviceType: string, provider: string, baseUrl: string, mode
     }
   }
 
+  if (p === 'gateway') {
+    // 本地 AI Gateway：/health 免鉴权，仅探测网关存活
+    return {
+      method: 'GET',
+      url: joinProviderUrl(baseUrl, '', '/health'),
+      headers: bearerHeaders(apiKey),
+      body: undefined,
+    }
+  }
+
   return {
     method: 'GET',
     url: joinProviderUrl(baseUrl, '', m ? `/${m}` : '/'),
